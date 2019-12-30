@@ -1,5 +1,6 @@
 import React from 'react';
-import {PostData} from '../../services/PostData';
+import {PostUserData} from '../../services/PostData';
+import {Redirect} from 'react-router-dom';
 
 export default class Signup extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ export default class Signup extends React.Component {
     }
 
     register(){
-        PostData('register', this.state).then ((result) => {
+        PostUserData('register', this.state).then ((result) => {
             let responseJSON = result;
             console.log(responseJSON);
         });
@@ -28,6 +29,10 @@ export default class Signup extends React.Component {
     }
 
     render() {
+        if (sessionStorage.getItem('userData')){
+            return (<Redirect to={'/pushup'}/>)
+        }
+
         return (
             <>
                 <h1>Signup</h1>

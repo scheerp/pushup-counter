@@ -1,5 +1,6 @@
 import React from 'react';
-import {PostData} from '../../services/PostData';
+import {PostUserData} from '../../services/PostData';
+import {Redirect} from 'react-router-dom';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -7,7 +8,8 @@ export default class Login extends React.Component {
 
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            redirectToReferrer: false
         }
 
         this.login = this.login.bind(this);
@@ -15,9 +17,12 @@ export default class Login extends React.Component {
     }
 
     login(){
-        PostData('login', this.state).then ((result) => {
-            let responseJSON = result;
-            console.log(responseJSON);
+        PostUserData('login', this.state).then ((result) => {
+            let responseJson = result;
+            if(responseJson){
+                sessionStorage.setItem('userData', JSON.stringify(responseJson.data));
+                this.setState({redirectToReferrer: true});
+                }
         });
     }
 
@@ -27,6 +32,9 @@ export default class Login extends React.Component {
     }
 
     render() {
+        if (this.state.redirectToReferrer || sessionStorage.getItem('userData')){
+            return (<Redirect to={'/pushup'}/>)
+        }
         return (
             <>
                 <h1>Login</h1>
