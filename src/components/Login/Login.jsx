@@ -1,6 +1,7 @@
 import React from 'react';
 import {PostUserData} from '../../services/PostData';
 import {Redirect} from 'react-router-dom';
+import Notification from '../Notification/Notification'
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -9,23 +10,41 @@ export default class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
-            redirectToReferrer: false
+            redirectToReferrer: false,
+            showGoalModal: false,
+            displayNotification: false,
+            notificationType: '',
+            notificationText: ''
         }
 
         this.login = this.login.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.displayNotifications = this.displayNotifications.bind(this);
+        this.closeNotification = this.closeNotification.bind(this);
+    }
+
+    displayNotifications(text, type) {
+        this.setState({
+            displayNotification: true,
+            notificationType: type,
+            notificationText: text
+        });
+    }
+
+    closeNotification(){
+        this.setState({display: false});
     }
 
     login(){
         PostUserData('login', this.state).then ((result) => {
             let responseJson = result;
-            if(responseJson){
                 sessionStorage.setItem('userData', JSON.stringify(responseJson.data));
                 this.setState({redirectToReferrer: true});
-                }
+        }, (error) => {
+            this.displayNotifications(`Something went wrong: ${error}`, 'error');
+            console.error("Something went wrong:", error);
         });
     }
-
     
     onChange(e){
         this.setState({[e.target.name]: e.target.value})
@@ -37,6 +56,12 @@ export default class Login extends React.Component {
         }
         return (
             <>
+                {this.state.displayNotification && 
+                <Notification
+                    text={this.state.notificationText}
+                    type={this.state.notificationType}
+                    close={this.closeNotification}
+                />}
                 <h1>Login</h1>
                 <label>Username</label>
                 <input type='text' name='username' placeholder='Username' onChange={this.onChange} />

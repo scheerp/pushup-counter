@@ -4,12 +4,11 @@ import {PostPushupData, PostGoal} from '../../services/PostData';
 import PushupButton from '../PushupButton/PushupButton'
 import {Redirect} from 'react-router-dom';
 import Modal from '../Modal/Modal';
+import Notification from '../Notification/Notification';
 
 export default class Pushup extends React.Component{
     constructor (props) {
         super(props);
-
-        console.log(JSON.parse(sessionStorage.getItem('userData')).goal);
 
         this.state = {
             pushupCount: 0,
@@ -19,7 +18,10 @@ export default class Pushup extends React.Component{
             sessionIsActive: true,
             logout: false,
             showMultipleInputModal: false,
-            showGoalModal: false
+            showGoalModal: false,
+            displayNotification: false,
+            notificationType: '',
+            notificationText: ''
         }
 
         this.doPushup = this.doPushup.bind(this);
@@ -27,6 +29,20 @@ export default class Pushup extends React.Component{
         this.logout = this.logout.bind(this);
         this.closeMultipleInputModal = this.closeMultipleInputModal.bind(this);
         this.setGoal = this.setGoal.bind(this);
+        this.displayNotifications = this.displayNotifications.bind(this);
+        this.closeNotification = this.closeNotification.bind(this);
+    }
+
+    displayNotifications(text, type) {
+        this.setState({
+            displayNotification: true,
+            notificationType: type,
+            notificationText: text
+        });
+    }
+
+    closeNotification(){
+        this.setState({display: false});
     }
 
     componentWillMount(){
@@ -39,6 +55,9 @@ export default class Pushup extends React.Component{
                     this.setState({showGoalModal: true});
                 }
             }
+        }, (error) => {
+            this.displayNotifications(`Something went wrong: ${error}`, 'error');
+            console.error("Something went wrong:", error);
         });
     }
 
@@ -53,9 +72,10 @@ export default class Pushup extends React.Component{
 
     doPushup(){
         PostPushupData(1).then ((result) => {
-            if(typeof result == 'string'){
-                this.setState({sessionIsActive: false});
-            }
+            this.setState({sessionIsActive: false});
+        }, (error) => {
+            this.displayNotifications(`Something went wrong: ${error}`, 'error');
+            console.error("Something went wrong:", error);
         });
 
         let pushupCount = this.state.pushupCount;
@@ -76,9 +96,8 @@ export default class Pushup extends React.Component{
     }
 
     setGoal(goal) {
-  console.log(goal);
         PostGoal(goal);
-        this.setState({showGoalModal: false});
+        this.setState({showGoalModal: false, goal});
     }
 
     render () {
@@ -91,6 +110,12 @@ export default class Pushup extends React.Component{
         }
         return (
             <>
+                {this.state.displayNotification && 
+                <Notification
+                    text={this.state.notificationText}
+                    type={this.state.notificationType}
+                    close={this.closeNotification}
+                />}
                 {this.state.showMultipleInputModal && 
                 <Modal
                     text="Add pushups"
@@ -106,8 +131,9 @@ export default class Pushup extends React.Component{
                 />
                 }
                 <button onClick={this.logout}>Logout</button>
-                <h1>Pushups done: {this.state.pushupCount}</h1>
+                <h1>Pushups: <br/> {this.state.pushupCount} / {this.state.goal}</h1>
                 <PushupButton doPushupAction={this.doPushup} isEnalbed={this.state.disableButton}/>
+                <a href='/ranking' class='button'>Ranking</a>
             </>
         );
     }

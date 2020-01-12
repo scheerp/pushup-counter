@@ -15,5 +15,20 @@ export function GetData(){
       }, (error) => {
 
       });
+}
 
+export function GetRanking(){
+    const BaseUrl = 'https://patrick-scheer.com/php-react-rest-api-crud/api/ranking.php';
+    let token;
+    
+    if(sessionStorage.getItem('userData')){
+      token = JSON.parse(sessionStorage.getItem('userData')).token;
+  }
+
+  return axios.get(`${BaseUrl}?token=${token}`)
+      .then((response) => {
+        return response.data;
+      }, (error) => {
+
+      });
 }

@@ -18,7 +18,7 @@ export default class Modal extends React.Component {
     render () {
         return (
             <div className='modal-overlay'>  
-                <div className='modal-overlay'>
+                <div className='modal-card'>
                     <h3>{this.props.text}</h3>
                     <input type="number"  onChange={this.onChange} placeholder={this.props.placeholder}></input>
                     <button onClick={() => this.props.submit(this.state.pushups)}>Submit</button>
