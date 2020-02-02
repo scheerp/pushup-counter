@@ -1,6 +1,6 @@
 import React from 'react';
-import {PostUserData} from '../../services/PostData';
-import {Redirect} from 'react-router-dom';
+import { PostUserData } from '../../services/PostData';
+import { Redirect } from 'react-router-dom';
 import Notification from '../Notification/Notification'
 
 export default class Login extends React.Component {
@@ -31,44 +31,44 @@ export default class Login extends React.Component {
         });
     }
 
-    closeNotification(){
-        this.setState({display: false});
+    closeNotification() {
+        this.setState({ display: false });
     }
 
-    login(){
-        PostUserData('login', this.state).then ((result) => {
+    login() {
+        PostUserData('login', this.state).then((result) => {
             let responseJson = result;
-                sessionStorage.setItem('userData', JSON.stringify(responseJson.data));
-                this.setState({redirectToReferrer: true});
+            sessionStorage.setItem('userData', JSON.stringify(responseJson.data));
+            this.setState({ redirectToReferrer: true });
         }, (error) => {
             this.displayNotifications(`Something went wrong: ${error}`, 'error');
             console.error("Something went wrong:", error);
         });
     }
-    
-    onChange(e){
-        this.setState({[e.target.name]: e.target.value})
+
+    onChange(e) {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     render() {
-        if (this.state.redirectToReferrer || sessionStorage.getItem('userData')){
-            return (<Redirect to={'/pushup'}/>)
+        if (this.state.redirectToReferrer || sessionStorage.getItem('userData')) {
+            return (<Redirect to={'/pushup'} />)
         }
         return (
-            <>
-                {this.state.displayNotification && 
-                <Notification
-                    text={this.state.notificationText}
-                    type={this.state.notificationType}
-                    close={this.closeNotification}
-                />}
+            <div className="welcome-screen">
+                {this.state.displayNotification &&
+                    <Notification
+                        text={this.state.notificationText}
+                        type={this.state.notificationType}
+                        close={this.closeNotification}
+                    />}
                 <h1>Login</h1>
                 <label>Username</label>
-                <input type='text' name='username' placeholder='Username' onChange={this.onChange} />
+                <input type='text' name='username' placeholder='Username' className="input" onChange={this.onChange} />
                 <label>Password</label>
-                <input type='password' name='password' placeholder='Password' onChange={this.onChange}/>
-                <input type='submit' value='login' className='button' onClick={this.login}/>
-            </>
+                <input type='password' name='password' placeholder='Password' className="input" onChange={this.onChange} />
+                <input type='submit' value='login' className='amount-button' onClick={this.login} />
+            </div>
         )
     }
 }
