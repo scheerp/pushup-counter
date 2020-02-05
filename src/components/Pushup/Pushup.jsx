@@ -163,7 +163,7 @@ export default class Pushup extends React.Component {
                 </Modal>
 
                 <div className="header-bar">
-                    <a href='/ranking' className='header-item ranking-button'>🥇RANKING</a>
+                    <a href='/ranking' className='header-item ranking-button'>🥇 RANKING</a>
                     <button className='header-item logout-button' onClick={this.logout}>Logout</button>
                 </div>
 

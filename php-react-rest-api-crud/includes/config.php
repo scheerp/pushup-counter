@@ -7,9 +7,9 @@
     date_default_timezone_set("Europe/Berlin");
 
     $db_servername = 'rdbms.strato.de';
-    $db_username = ''
-    $db_password = '';
-    $db_name = '';
+    $db_username = 'U4026187';
+    $db_password = 'sonnebornMartin24';
+    $db_name = 'DB4026187';
 
     // Create connection
     $con = new mysqli($db_servername, $db_username, $db_password, $db_name);

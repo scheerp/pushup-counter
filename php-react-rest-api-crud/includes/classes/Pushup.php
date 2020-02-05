@@ -57,10 +57,22 @@ class Pushup {
                 }
             }
 
+            $pushupsPerDaySql = "SELECT SUM(pushups.pushup_count)
+                AS pushups, CAST(date_time AS DATE) as date
+                FROM pushups
+                WHERE user_id = '$userId'
+                GROUP BY CAST(date_time AS DATE)";
+                
+            $pushupsPerDayQuery = $this->con->query($pushupsPerDaySql);
+            $pushups['daily'] = $pushupsPerDayQuery->fetch_assoc();
+            $daily = array();
+            while($row = $pushupsPerDayQuery->fetch_assoc()) {
+                array_push($daily, $row);
+            }
+            $pushups['daily'] = $daily;
+
             $userGoalSql = "SELECT * FROM users WHERE user_id = '$userId'";
-
             $userGoalQuery = $this->con->query($userGoalSql);
-
             while($row = $userGoalQuery->fetch_assoc()) {
                 $pushups['goal'] = $row["target"];
                 

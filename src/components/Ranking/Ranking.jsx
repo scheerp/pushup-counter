@@ -39,7 +39,7 @@ export default class Ranking extends React.Component {
         return (
             <>
                 <div className="header-bar">
-                    <a href='/pushup' className='header-item ranking-button'>💪🏻PUSHUPS</a>
+                    <a href='/pushup' className='header-item ranking-button'>💪🏻 PUSHUPS</a>
                     <button className='header-item logout-button' onClick={this.logout}>Logout</button>
                 </div>
                 <h3 className="ranking">RANKING</h3>
@@ -48,9 +48,9 @@ export default class Ranking extends React.Component {
                         user.username != 'Admin' && (
                             <li className="ranking-list-item" id={index}>
                                 <span>
-                                    {index === 1 && <span>🥇</span>}
-                                    {index === 2 && <span>🥈</span>}
-                                    {index === 3 && <span>🥉</span>}
+                                    {index === 0 && <span>🥇</span>}
+                                    {index === 1 && <span>🥈</span>}
+                                    {index === 2 && <span>🥉</span>}
                                     <span className="bold">{user.username}</span>
                                 </span>
                                 <span>{user.pushups} / {user.goal}</span>
