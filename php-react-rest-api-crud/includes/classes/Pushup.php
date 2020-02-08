@@ -64,7 +64,6 @@ class Pushup {
                 GROUP BY CAST(date_time AS DATE)";
                 
             $pushupsPerDayQuery = $this->con->query($pushupsPerDaySql);
-            $pushups['daily'] = $pushupsPerDayQuery->fetch_assoc();
             $daily = array();
             while($row = $pushupsPerDayQuery->fetch_assoc()) {
                 array_push($daily, $row);
@@ -78,9 +77,6 @@ class Pushup {
                 
                 echo(json_encode($pushups));
             }
-        // } else {
-        //     var_dump(http_response_code(511));
-        // }
     }
 
     public function getAllPushups() {
@@ -101,6 +97,7 @@ class Pushup {
                 $ranking = array();
                 while($row = $query->fetch_assoc()) {
                     $pushups = array(
+                        "id" => $row["user_id"],
                         "username" => $row["username"],
                         "pushups" => $row["pushups_total"],
                         "goal" => $row["target"]

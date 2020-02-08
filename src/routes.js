@@ -5,6 +5,7 @@ import Login from './components/Login/Login'
 import Signup from './components/Signup/Signup'
 import Pushup from './components/Pushup/Pushup'
 import Ranking from './components/Ranking/Ranking'
+import Stats from './components/Stats/Stats'
 import NotFound from './components/NotFound/NotFound'
 
 let Routes = () => (
@@ -15,6 +16,7 @@ let Routes = () => (
             <Route path='/signup' component={Signup}></Route>
             <Route path='/pushup' component={Pushup}></Route>
             <Route path='/ranking' component={Ranking}></Route>
+            <Route path='/stats' component={Stats}></Route>
             <Route path='*' component={NotFound}></Route>
         </Switch>
     </BrowserRouter>
