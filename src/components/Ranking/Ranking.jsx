@@ -8,7 +8,8 @@ export default class Ranking extends React.Component {
 
         this.state = {
             sessionIsActive: true,
-            logout: false
+            logout: false,
+            daysInChallenge: 0
         }
 
         this.logout = this.logout.bind(this);
@@ -16,6 +17,15 @@ export default class Ranking extends React.Component {
     componentWillMount() {
         GetRanking().then((result) => {
             let responseJson = result;
+            result.forEach((element, index) => {
+                let date = new Date(element.daily[0].date);
+                let today = new Date();
+                result[index].daysInChallenge = 29 - date.getDate() + 1;
+                result[index].dailyGoal = Math.ceil(result[index].goal / result[index].daysInChallenge);
+                result[index].dailyGoalReached = result[index].dailyGoal * today.getDate() - result[index].pushups <= 0;
+            });
+
+            console.log(result);
             this.setState({ ranking: result });
         }, (error) => {
             // this.displayNotifications(`Something went wrong: ${error}`, 'error');
@@ -51,9 +61,9 @@ export default class Ranking extends React.Component {
                                     {index === 0 && <span>🥇</span>}
                                     {index === 1 && <span>🥈</span>}
                                     {index === 2 && <span>🥉</span>}
-                                    <span className="bold">{user.username}</span>
+                                    <a className="bold" href={`/stats?id=${user.id}`}>{user.username}</a>
                                 </span>
-                                <span>{user.pushups} / {user.goal}</span>
+                                <span><span style={{ color: !user.dailyGoalReached && 'red' }}>{user.pushups}</span> / {user.goal}</span>
                             </li>
                         )
                     )

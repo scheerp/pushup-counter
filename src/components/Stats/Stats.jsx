@@ -1,32 +1,54 @@
 import React from 'react';
 import { GetData } from '../../services/GetData';
-import { PostPushupData, PostGoal } from '../../services/PostData';
-import PushupButton from '../PushupButton/PushupButton'
 import { Redirect } from 'react-router-dom';
 import Notification from '../Notification/Notification';
-import Modal from 'react-modal';
+import { Line } from 'react-chartjs-3';
 
 export default class Stats extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            userData: '',
             sessionIsActive: true,
-            logout: false,
+            lineGraphData: {
+                labels: [],
+                datasets: [
+                ]
+            }
         }
 
         this.logout = this.logout.bind(this);
     }
 
     componentWillMount() {
-        GetData().then((result) => {
+        const params = new URLSearchParams(this.props.location.search)
+
+        GetData(params.get('id')).then((result) => {
             let responseJson = result;
 
             if (responseJson) {
-                this.setState({ pushupCount: result.pushupsDone, goal: result.goal });
-                if (result.goal == 0) {
-                    this.setState({ showGoalModal: true });
-                }
+                let days = [];
+                let pushups = [];
+                let data =
+                    [{
+                        label: 'Pushups by day',
+                        fill: false,
+                        lineTension: 0,
+                        backgroundColor: 'rgba(75,192,192,1)',
+                        borderColor: 'rgba(255,255,255,1)',
+                        borderWidth: 1,
+                        data: 0
+                    }];
+                result.daily.forEach(element => {
+                    let date = new Date(element.date);
+                    days.push(`${date.getDate()} Feb`);
+
+                    pushups.push(element.pushups);
+                });
+
+                data[0].data = pushups;
+                this.setState({ lineGraphData: { labels: days, datasets: data } });
             }
         }, (error) => {
             this.displayNotifications(`Something went wrong: ${error}`, 'error');
@@ -55,6 +77,12 @@ export default class Stats extends React.Component {
                 </div>
 
                 <h1>STATS</h1>
+                <div className='stats-wrapper'>
+                    <Line data={this.state.lineGraphData} legend={{
+                        display: true,
+                        position: 'bottom'
+                    }} />
+                </div>
             </>
         );
     }

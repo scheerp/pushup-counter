@@ -183,6 +183,8 @@ h4{
 
 .bold{
   font-weight: 800;
+  color: white!important;
+  text-decoration: none;;
 }
 
 .ReactModal__Content--after-open{
@@ -201,4 +203,7 @@ h4{
   font-size: 20px;
   margin-top: 45px;
   margin-bottom: 45px;
+}
+.stats-wrapper{
+  width: 90%;
 }

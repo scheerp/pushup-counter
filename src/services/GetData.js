@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-export function GetData() {
+export function GetData(id = null) {
   const BaseUrl = 'https://patrick-scheer.com/php-react-rest-api-crud/api/pushup.php';
   let token;
-  let id;
+  let userID = id;
   if (sessionStorage.getItem('userData')) {
     token = JSON.parse(sessionStorage.getItem('userData')).token;
-    id = JSON.parse(sessionStorage.getItem('userData')).id;
+    if (!userID) userID = JSON.parse(sessionStorage.getItem('userData')).id;
   }
 
-  return axios.get(`${BaseUrl}?token=${token}&id=${id}`)
+  return axios.get(`${BaseUrl}?token=${token}&id=${userID}`)
     .then((response) => {
       return response.data;
     }, (error) => {
