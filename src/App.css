@@ -1,5 +1,4 @@
 h1{
-  font-family: RobotoSlab-Bold;
   font-size: 40px;
   letter-spacing: 2px;
   margin-top: 10vh;
@@ -23,6 +22,11 @@ h4{
   font-size: 40px;
   letter-spacing: 2px;
   margin-top: 0;
+}
+
+button {
+  font-family: 'Roboto Slab', serif !important;
+  font-weight: 400;
 }
 
 .App {
@@ -73,11 +77,10 @@ h4{
   color: #282C34;
   border: none;
   font-size: 40px;
-  font-weight: 800;
+  font-weight: 700;
 
   background-image: linear-gradient(-180deg, #EEEEEE 0%, #E1E1E1 52%, #B0B0B0 100%);
   border: 3px solid #979797;
-  font-family: RobotoSlab-Bold;
   font-size: 26px;
   color: #282C34!important;
   letter-spacing: 1.93px;
@@ -125,9 +128,10 @@ h4{
 }
 
 .logout-button{
-  font-family: RobotoSlab-Regular;
   font-size: 16px;
   letter-spacing: 1.6px;
+  font-family: 'Roboto Slab', serif !important;
+  font-weight: 400;
 }
 
 .amount-button{
@@ -140,7 +144,6 @@ h4{
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: RobotoSlab-Bold;
   font-size: 16px;
   margin-bottom: 20px;
   text-decoration: none;
@@ -171,7 +174,6 @@ h4{
   text-align: center; 
   align-items: center;
   justify-content: center;
-  font-family: RobotoSlab-Bold;
   font-size: 16px;
 }
 
@@ -206,4 +208,8 @@ h4{
 }
 .stats-wrapper{
   width: 90%;
+}
+.ranking-numbers{
+  font-family: 'Roboto Slab', serif !important;
+  font-weight: 400;
 }

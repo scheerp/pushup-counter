@@ -63,7 +63,7 @@ export default class Ranking extends React.Component {
                                     {index === 2 && <span>🥉</span>}
                                     <a className="bold" href={`/stats?id=${user.id}`}>{user.username}</a>
                                 </span>
-                                <span><span style={{ color: !user.dailyGoalReached && 'red' }}>{user.pushups}</span> / {user.goal}</span>
+                                <span className="ranking-numbers"><span style={{ color: !user.dailyGoalReached && 'red' }}>{user.pushups}</span> / {user.goal}</span>
                             </li>
                         )
                     )
