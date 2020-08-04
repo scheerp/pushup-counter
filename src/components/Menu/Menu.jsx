@@ -6,7 +6,7 @@ export default ({ close }) => (
     <ul>
       <li>
         <NavLink onClick={close} activeClassName="current" to="pushup">
-          Pushup
+          Pushdown
         </NavLink>
       </li>
       <li>
